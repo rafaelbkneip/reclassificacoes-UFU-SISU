@@ -80,7 +80,6 @@ for j in range((n_cursos)):
 
     for i in range(1, len(lista_elementos[j])):
 
-        curso_aluno.append(cursos[j])
         print(lista_elementos[j][i])
 
         #Modalidade
@@ -89,11 +88,12 @@ for j in range((n_cursos)):
 
         if(aux == "Modalidade" or aux == "Ampla"):
             print("Primerio if")
-            modalidade_aux.append(aux)
+            modalidade_aux.append(lista_elementos[j][i])
 
         elif(aux.split("º")[0].isnumeric()):
             print("Segundo if")
             classificacao.append(aux)
+            curso_aluno.append(cursos[j])
             numero.append(lista_elementos[j][i].split(" ")[-1])
             aluno = lista_elementos[j][i].split(" ")[2]
             print(aluno)
@@ -113,12 +113,27 @@ for j in range((n_cursos)):
             modalidade.append(modalidade_aux[-1])
 
 
+print(len(curso_aluno))
 
+print(len(classificacao))
 print(len(modalidade))
 print(len(nome))
 print(len(numero))
 
-print((modalidade))
-print((nome))
-print((numero))
-print((curso_aluno))
+
+#Definir o caminho para salvar o arquivo .xlsx      
+book = xlsxwriter.Workbook('')  
+
+sheet = book.add_worksheet()  
+
+
+#Todas as listas possuem o mesmo número de elementos
+for i in range(len(curso_aluno)):
+
+    sheet.write(i, 0, classificacao[i])
+    sheet.write(i, 1, nome[i])
+    sheet.write(i, 2, curso_aluno[i])
+    sheet.write(i, 3, numero[i])
+    sheet.write(i, 4, modalidade[i])
+   
+book.close()
